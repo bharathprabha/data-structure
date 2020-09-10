@@ -34,7 +34,7 @@ bool find_key(struct node *root, int data)
         return find_key(root->left, data);
     else if (root->data < data)
         return find_key(root->right, data);
-    else if (root->data == data)
+    else
         return true;
 }
 
@@ -46,6 +46,21 @@ int max_value(struct node *root)
         temp = temp->right;
     }
     return temp->data;
+}
+
+int find_max(int a, int b)
+{
+    return (a >= b) ? a : b;
+}
+
+int height(struct node *root)
+{
+    if (root == nullptr)
+        return 0;
+    else
+    {
+        return 1 + find_max(height(root->left), height(root->right));
+    }
 }
 
 void inorder(struct node *root)
@@ -129,7 +144,7 @@ int main()
     root = insert(root, 5);
     root = insert(root, 7);
     root = insert(root, 2);
-    root = insert(root, 4);
+    root = insert(root, 6);
     root = insert(root, 1);
     root = insert(root, 9);
     root = insert(root, 4);
@@ -150,5 +165,7 @@ int main()
     cout << " ";
     root = delete_key(root, 9);
     inorder(root);
+    cout << " ";
+    cout << height(root);
     return 0;
 }
