@@ -10,7 +10,7 @@ struct node {
 struct node *new_node(int data) {
     struct node *temp = new node();
     temp->data = data;
-    temp->height = 0;
+    temp->height = 1;
     temp->left = nullptr;
     temp->right = nullptr;
     return temp;
@@ -99,8 +99,64 @@ struct node *insert(struct node *root, int data) {
     return root;
 }
 
-// struct node *delete_key(struct node *root, int data) {
-// }
+int min_value(struct node *root) {
+    struct node *temp = root;
+    while (temp->left != nullptr) {
+        temp = temp->left;
+    }
+
+    return temp->data;
+}
+
+struct node *delete_key(struct node *root, int data) {
+    if (root == nullptr) {
+        return root;
+    }
+    if (data < root->data) {
+        root->left = delete_key(root->left, data);
+    } else if (data > root->data) {
+        root->right = delete_key(root->right, data);
+    } else {
+        if (root->left == nullptr) {
+            struct node *temp = root->right;
+            free(root);
+            return temp;
+        } else if (root->right == nullptr) {
+            struct node *temp = root->left;
+            free(root);
+            return temp;
+        } else {
+            struct node *temp = new_node(min_value(root->right));
+
+            root->data = temp->data;
+
+            root->right = delete_key(root->right, temp->data);
+        }
+    }
+    if (root == nullptr) {
+        return root;
+    }
+
+    root->height = 1 + find_max(height(root->left), height(root->right));
+
+    int balance = get_balance(root);
+
+    if (balance > 1 && get_balance(root->left) >= 0) {
+        return right_rotation(root);
+    }
+    if (balance < -1 && get_balance(root->right) <= 0) {
+        return left_rotation(root);
+    }
+    if (balance > 1 && get_balance(root->left) < 0) {
+        root->left = left_rotation(root->left);
+        return right_rotation(root);
+    }
+    if (balance < -1 && get_balance(root->right) > 0) {
+        root->right = right_rotation(root->right);
+        return left_rotation(root);
+    }
+    return root;
+}
 
 int main() {
     struct node *root = NULL;
@@ -112,6 +168,13 @@ int main() {
     root = insert(root, 9);
     root = insert(root, 4);
     root = insert(root, 3);
+    inorder(root);
+    cout << " ";
+    cout << height(root);
+    root = delete_key(root, 7);
+    root = delete_key(root, 3);
+    root = delete_key(root, 9);
+    cout << " ";
     inorder(root);
     cout << " ";
     cout << height(root);
