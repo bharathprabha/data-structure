@@ -6,7 +6,7 @@ struct node {
     struct node *right, *left;
 };
 
-struct node *new_node(int data) {
+node *new_node(int data) {
     struct node *temp = new node();
     temp->data = data;
     temp->left = nullptr;
@@ -14,15 +14,15 @@ struct node *new_node(int data) {
     return temp;
 };
 
-int min_value(struct node *root) {
-    struct node *temp = root;
+int min_value(node *root) {
+    node *temp = root;
     while (temp->left != nullptr) {
         temp = temp->left;
     }
     return temp->data;
 }
 
-bool find_key(struct node *root, int data) {
+bool find_key(node *root, int data) {
     if (root == nullptr)
         return false;
     else if (root->data > data)
@@ -33,8 +33,8 @@ bool find_key(struct node *root, int data) {
         return true;
 }
 
-int max_value(struct node *root) {
-    struct node *temp = root;
+int max_value(node *root) {
+    node *temp = root;
     while (temp->right != nullptr) {
         temp = temp->right;
     }
@@ -45,7 +45,7 @@ int find_max(int a, int b) {
     return (a >= b) ? a : b;
 }
 
-int height(struct node *root) {
+int height(node *root) {
     if (root == nullptr)
         return 0;
     else {
@@ -53,7 +53,7 @@ int height(struct node *root) {
     }
 }
 
-void inorder(struct node *root) {
+void inorder(node *root) {
     if (root != nullptr) {
         inorder(root->left);
         cout << root->data;
@@ -61,7 +61,7 @@ void inorder(struct node *root) {
     }
 }
 
-void preorder(struct node *root) {
+void preorder(node *root) {
     if (root != nullptr) {
         cout << root->data;
         preorder(root->left);
@@ -69,7 +69,7 @@ void preorder(struct node *root) {
     }
 }
 
-void postorder(struct node *root) {
+void postorder(node *root) {
     if (root != nullptr) {
         postorder(root->left);
         postorder(root->right);
@@ -77,7 +77,7 @@ void postorder(struct node *root) {
     }
 }
 
-struct node *insert(struct node *root, int data) {
+node *insert(node *root, int data) {
     if (root == nullptr)
         return new_node(data);
     if (root->data >= data)
@@ -87,7 +87,7 @@ struct node *insert(struct node *root, int data) {
     return root;
 }
 
-struct node *delete_key(struct node *root, int data) {
+node *delete_key(node *root, int data) {
     if (root == NULL)
         return root;
     else if (root->data > data)
@@ -96,15 +96,15 @@ struct node *delete_key(struct node *root, int data) {
         root->right = delete_key(root->right, data);
     else {
         if (root->left == nullptr) {
-            struct node *temp = root->right;
+            node *temp = root->right;
             free(root);
             return temp;
         } else if (root->right == nullptr) {
-            struct node *temp = root->left;
+            node *temp = root->left;
             free(root);
             return temp;
         } else {
-            struct node *temp = new_node(min_value(root->right));
+            node *temp = new_node(min_value(root->right));
 
             root->data = temp->data;
 
@@ -115,7 +115,7 @@ struct node *delete_key(struct node *root, int data) {
 }
 
 int main() {
-    struct node *root = NULL;
+    node *root = NULL;
     root = insert(root, 5);
     root = insert(root, 7);
     root = insert(root, 2);

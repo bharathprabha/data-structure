@@ -7,8 +7,8 @@ struct node {
     struct node *right, *left;
 };
 
-struct node *new_node(int data) {
-    struct node *temp = new node();
+node *new_node(int data) {
+    node *temp = new node();
     temp->data = data;
     temp->height = 1;
     temp->left = nullptr;
@@ -20,7 +20,7 @@ int find_max(int a, int b) {
     return (a >= b) ? a : b;
 }
 
-int height(struct node *root) {
+int height(node *root) {
     if (root == nullptr)
         return 0;
     else {
@@ -28,7 +28,7 @@ int height(struct node *root) {
     }
 }
 
-void inorder(struct node *root) {
+void inorder(node *root) {
     if (root != nullptr) {
         inorder(root->left);
         cout << root->data;
@@ -36,9 +36,9 @@ void inorder(struct node *root) {
     }
 }
 
-struct node *left_rotation(struct node *y) {
-    struct node *x = y->left;
-    struct node *T1 = x->right;
+node *left_rotation(node *y) {
+    node *x = y->left;
+    node *T1 = x->right;
 
     y->left = T1;
     x->right = y;
@@ -49,9 +49,9 @@ struct node *left_rotation(struct node *y) {
     return x;
 }
 
-struct node *right_rotation(struct node *x) {
-    struct node *y = x->right;
-    struct node *T1 = y->left;
+node *right_rotation(node *x) {
+    node *y = x->right;
+    node *T1 = y->left;
 
     x->right = T1;
     y->left = x;
@@ -62,14 +62,14 @@ struct node *right_rotation(struct node *x) {
     return y;
 }
 
-int get_balance(struct node *root) {
+int get_balance(node *root) {
     if (root == nullptr) {
         return 0;
     }
     return height(root->left) - height(root->right);
 }
 
-struct node *insert(struct node *root, int data) {
+node *insert(node *root, int data) {
     if (root == nullptr) {
         return (new_node(data));
     }
@@ -99,8 +99,8 @@ struct node *insert(struct node *root, int data) {
     return root;
 }
 
-int min_value(struct node *root) {
-    struct node *temp = root;
+int min_value(node *root) {
+    node *temp = root;
     while (temp->left != nullptr) {
         temp = temp->left;
     }
@@ -108,7 +108,7 @@ int min_value(struct node *root) {
     return temp->data;
 }
 
-struct node *delete_key(struct node *root, int data) {
+node *delete_key(node *root, int data) {
     if (root == nullptr) {
         return root;
     }
@@ -118,15 +118,15 @@ struct node *delete_key(struct node *root, int data) {
         root->right = delete_key(root->right, data);
     } else {
         if (root->left == nullptr) {
-            struct node *temp = root->right;
+            node *temp = root->right;
             free(root);
             return temp;
         } else if (root->right == nullptr) {
-            struct node *temp = root->left;
+            node *temp = root->left;
             free(root);
             return temp;
         } else {
-            struct node *temp = new_node(min_value(root->right));
+            node *temp = new_node(min_value(root->right));
 
             root->data = temp->data;
 
@@ -159,7 +159,7 @@ struct node *delete_key(struct node *root, int data) {
 }
 
 int main() {
-    struct node *root = NULL;
+    node *root = NULL;
     root = insert(root, 5);
     root = insert(root, 7);
     root = insert(root, 2);
