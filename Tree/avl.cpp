@@ -66,7 +66,7 @@ int get_balance(node *root) {
     if (root == nullptr) {
         return 0;
     }
-    return height(root->left) - height(root->right);
+    return height(root->left) - height(root->right); 
 }
 
 node *insert(node *root, int data) {
